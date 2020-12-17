@@ -3,47 +3,73 @@
 
 #define MOVE_SPEED 10
 
-
-void Log(std::string text) {
-
-    std::cout << text << std::endl;
+template <typename T>
+void Log(T CmdLine) {
+    std::cout << CmdLine << std::endl;
 }
 
 
-void RysujOgon(sf::RenderWindow& RW,sf::CircleShape& CS, int kierunek, bool rysuj=true)
+class TPlayer
 {
-    if (rysuj) {
-      std::vector<sf::CircleShape> ogon(40);
+private:
+sf::Texture m_Texture;
+sf::Sprite m_Sprite;
 
-        for (int i=1; (i < ogon.size()); i++) 
-        {
-        ogon[i] = sf::CircleShape(20.f);
-        ogon[i].setFillColor(sf::Color(0,255,0,100-i));
-
-switch (kierunek)
+public:
+// Konstruktor
+TPlayer () 
 {
-case 1: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x-2*i,CS.getPosition().y)); break;
-case 2: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x+2*i,CS.getPosition().y)); break;
-case 3: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y+2*i)); break;
-case 4: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y-2*i)); break;
-default:  ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y)); break;
-
-
-
-
+   m_Texture.loadFromFile("textures/jeden.jpg",sf::IntRect(0, 0, 32, 32)); // plik tekstury
+   m_Texture.setRepeated(false);
+   m_Sprite.setTexture(skora); 
+   m_Sprite.setPosition(30,175); // pozycjonowanie
+  
 }
 
-        
-        RW.draw(ogon[i]);
+// Funkcje składowe
 
-        } ;
-        
-        };
+void Move(const int& x=0, const int& y=0) 
+{
+m_Sprite.setPosition(sf::Vector2f(duszek.getPosition().x+x,duszek.getPosition().y+y));
+  
+};
 
+void MoveRight(const int& speed=MOVE_SPEED) 
+{
+Move(speed,0);
+};
 
+void MoveLeft(const int& speed=-MOVE_SPEED) 
+{
+Move(speed,0);
+};
+
+void MoveUp(const int& speed=-MOVE_SPEED) 
+{
+Move(0,speed);
+};
+
+void MoveDown(const int& speed=MOVE_SPEED) 
+{
+Move(0,speed);
+};
+
+void Stop() 
+{
 
 };
 
+sf::Drawable& GetToDraw()
+{
+return m_Sprite;
+}
+
+};
+
+
+
+
+TPlayer Gracz;
 int main()
 {
    // Okno
@@ -52,13 +78,7 @@ int main()
     window.setFramerateLimit(30);
     window.setMouseCursorVisible(false);
     window.setPosition(sf::Vector2i(130,120));
-  int tmpkier=0;
-    // Kształty
 
-    sf::CircleShape shape(20.f,60);
-    shape.setFillColor(sf::Color::Green);
-    shape.setPosition(sf::Vector2f(20,20));
-    //shape.setOrigin(sf::Vector2f(50,5)); punkt zaczepienia
 
     while (window.isOpen())
     {
@@ -69,56 +89,50 @@ int main()
                 window.close();
           
 
-        
-
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-                shape.setFillColor(sf::Color::Red);
-                shape.setPosition(sf::Vector2f(shape.getPosition().x+MOVE_SPEED,shape.getPosition().y));
-                tmpkier=1;
+              
+                Gracz.MoveRight();
+               
                
             };
 
               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
-                shape.setFillColor(sf::Color::Red);
-                shape.setPosition(sf::Vector2f(shape.getPosition().x-MOVE_SPEED,shape.getPosition().y));
-                tmpkier=2;
+              Gracz.MoveLeft();
+             
+              
                 
             };
 
-            if ( !(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))&& !(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) )
+               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
             {
-                shape.setFillColor(sf::Color::Green);
-                tmpkier=0;
-          
-            };
-
-              if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            {
-                shape.setFillColor(sf::Color::Red);
-                shape.setPosition(sf::Vector2f(shape.getPosition().x,shape.getPosition().y-MOVE_SPEED));
-                tmpkier=3;
+              Gracz.MoveUp();
+           
+              
             }
 
               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
-                shape.setFillColor(sf::Color::Red);
-                shape.setPosition(sf::Vector2f(shape.getPosition().x,shape.getPosition().y+MOVE_SPEED));
-                tmpkier=4;
+              Gracz.MoveDown();
+             
+            
             }
-            
 
-            
+            if ( !(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) )
+            {
+              Gracz.Stop();
+        
+          
+            };
+
+        
              
         }
 
-        window.clear();
-
-       RysujOgon(window,shape,tmpkier);
-        
-       window.draw(shape);
-        window.display();
+      window.clear();
+      window.draw(Gracz.GetToDraw());
+      window.display();
     }
 
     return 0;
