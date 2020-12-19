@@ -1,7 +1,10 @@
 #include "sfml/SFML-2.5.1/include/SFML/Graphics.hpp"
 #include <iostream>
+#include "TPlayer.h"
+#include "TPlatform.h"
+#include "TWall.h"
 
-#define MOVE_SPEED 10
+
 
 template <typename T>
 void Log(T CmdLine) {
@@ -9,71 +12,15 @@ void Log(T CmdLine) {
 }
 
 
-class TPlayer
-{
-private:
-sf::Texture m_Texture;
-sf::Sprite m_Sprite;
+TPlayer Gracz(100,100,"textures/jeden.jpg",0,0);
+TPlatform Platform(50,400,"textures/jeden.jpg",512,512);
+TPlatform Platform2(150,Platform.m_Sprite.getPosition().y-40,"textures/jeden.jpg",512,512);
+TWall Wall(20,Platform.m_Sprite.getPosition().y-50,"textures/jeden.jpg",200,600);
 
-public:
-// Konstruktor
-TPlayer () 
-{
-   m_Texture.loadFromFile("textures/jeden.jpg",sf::IntRect(0, 0, 32, 32)); // plik tekstury
-   m_Texture.setRepeated(false);
-   m_Sprite.setTexture(skora); 
-   m_Sprite.setPosition(30,175); // pozycjonowanie
-  
-}
-
-// Funkcje składowe
-
-void Move(const int& x=0, const int& y=0) 
-{
-m_Sprite.setPosition(sf::Vector2f(duszek.getPosition().x+x,duszek.getPosition().y+y));
-  
-};
-
-void MoveRight(const int& speed=MOVE_SPEED) 
-{
-Move(speed,0);
-};
-
-void MoveLeft(const int& speed=-MOVE_SPEED) 
-{
-Move(speed,0);
-};
-
-void MoveUp(const int& speed=-MOVE_SPEED) 
-{
-Move(0,speed);
-};
-
-void MoveDown(const int& speed=MOVE_SPEED) 
-{
-Move(0,speed);
-};
-
-void Stop() 
-{
-
-};
-
-sf::Drawable& GetToDraw()
-{
-return m_Sprite;
-}
-
-};
-
-
-
-
-TPlayer Gracz;
 int main()
 {
    // Okno
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Stefan");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Stefan");
     window.setActive(true);
     window.setFramerateLimit(30);
     window.setMouseCursorVisible(false);
@@ -91,37 +38,44 @@ int main()
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             {
-              
-                Gracz.MoveRight();
+              // if (Gracz.isCollision(Wall)) {} else Gracz.MoveRight();
+
+            //  if (Gracz.isCollision(Platform) && (!Gracz.isCollision(Wall))) {Gracz.MoveRight();}
+           //   if (!Gracz.isCollision(Platform) && (Gracz.isCollision(Wall))) {Gracz.MoveRight();}
+              if ((!Gracz.testCollisionRight(Platform)) && (!Gracz.testCollisionRight(Platform2))) {Gracz.MoveRight(); Gracz.CanJump=true;} else {Gracz.MoveStop(); Gracz.CanJump=false;};
                
                
             };
 
               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
-              Gracz.MoveLeft();
+             // if (Gracz.isCollision(Platform) && (!Gracz.isCollision(Wall))) {Gracz.MoveLeft();}
+           //   if (!Gracz.isCollision(Platform) && (Gracz.isCollision(Wall))) {Gracz.MoveLeft();}
+              if ((!Gracz.testCollisionLeft(Platform)) && (!Gracz.testCollisionLeft(Platform2))) {Gracz.MoveLeft(); Gracz.CanJump=true;} else {Gracz.MoveStop(); Gracz.CanJump=false;};
+                
              
               
                 
             };
 
-               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
-              Gracz.MoveUp();
+              
+              if (Gracz.CanJump) Gracz.MoveJump();
            
               
             }
 
               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
             {
-              Gracz.MoveDown();
+              //Gracz.MoveDown();
              
             
             }
 
             if ( !(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) )
             {
-              Gracz.Stop();
+              Gracz.MoveStop();
         
           
             };
@@ -130,8 +84,15 @@ int main()
              
         }
 
+        if (Gracz.isCollision(Platform) || Gracz.isCollision(Platform2)) {} else Gracz.MoveDown(5);
+        if (Gracz.isJumping) Gracz.Fly(); 
+                
+
       window.clear();
       window.draw(Gracz.GetToDraw());
+      window.draw(Platform.GetToDraw());
+      window.draw(Platform2.GetToDraw());
+      window.draw(Wall.GetToDraw());
       window.display();
     }
 
