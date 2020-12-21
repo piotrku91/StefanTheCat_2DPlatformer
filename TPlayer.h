@@ -40,7 +40,7 @@ void MoveStop() {};
 
 
 int FCounter=0;
-int para_arr[60][2];
+float para_arr[10][2];
 sf::Vector2f Baza;
 sf:: Vector2f lastPos;
 bool Falling=false;
@@ -48,32 +48,48 @@ bool Falling=false;
 void MoveJump()
 {
 Baza = m_Sprite.getPosition();
+std::cout << "BAZA x: " <<Baza.x;
+std::cout << " BAZA y: " << Baza.y <<std::endl;
 
-for (int i=0; i<60; i++)
+for (int i=0; i<11; i++)
 {
-para_arr[i][0]=i;
-para_arr[i][1]=pow(i,2)/6;
+   
+para_arr[i][0]=i*10+Baza.x;
+para_arr[i][1]=Baza.y-((-1*pow(i-5,2))+80);
+
+
+std::cout << "x: " <<para_arr[i][0];
+std::cout << " y: " << para_arr[i][1] <<std::endl;
+
 };
 int FCounter=0;
 isJumping=true;
-Falling=false;
+CanJump=false;
 
 }
 
 void Fly()
 {
-   if ((FCounter<30) && (!Falling)) {
-m_Sprite.setPosition(Baza.x+para_arr[FCounter][0],Baza.y-para_arr[FCounter][1]);
+   
+  // std::cout << "BAZA x: " <<Baza.x;
+//std::cout << " BAZA y: " << Baza.y <<std::endl;
+   if (FCounter<11) {
+m_Sprite.setPosition(para_arr[FCounter][0],para_arr[FCounter][1]);
+
+std::cout << "nowy x: " <<para_arr[FCounter][0];
+std::cout << " nowy y: " << para_arr[FCounter][1] <<std::endl;
+
+
 FCounter++;
 
-   } else { Falling=true;}
+   } else { isJumping=false;  FCounter=0; }
 
-      if ((FCounter>-1) && (Falling)) {
+   //   if ((FCounter>-1) && (Falling)) {
 
-FCounter--;
-   } 
-
-   if (FCounter<0) { Falling=false; isJumping=false; };
+//m_Sprite.setPosition(Baza.x+para_arr[FCounter][0],Baza.y-para_arr[FCounter][1]);
+//FCounter--;
+  // } 
+ //if (FCounter<0) { Falling=false; isJumping=false; };
    
   
    

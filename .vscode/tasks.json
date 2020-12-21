@@ -6,7 +6,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-c",
-                "${file}",
+                "main.cpp",
                 "-I",
                 "sfml/SFML-2.5.1/include",
                 "&&",

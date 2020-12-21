@@ -1,0 +1,30 @@
+
+void RysujOgon(sf::RenderWindow& RW,sf::CircleShape& CS, int kierunek, bool rysuj=true)
+{
+    if (rysuj) {
+      std::vector<sf::CircleShape> ogon(100);
+
+        for (int i=1; (i < ogon.size()); i++)                   
+        {
+        ogon[i] = sf::CircleShape(20.f);
+        ogon[i].setFillColor(sf::Color(0,255-(255*i/ogon.size()),0,100-(100*i/ogon.size())));
+
+switch (kierunek)
+{
+case 1: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x-2*i,CS.getPosition().y)); break;
+case 2: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x+2*i,CS.getPosition().y)); break;
+case 3: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y+2*i)); break;
+case 4: ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y-2*i)); break;
+default:  ogon[i].setPosition(sf::Vector2f(CS.getPosition().x,CS.getPosition().y)); break;
+}
+
+        
+        RW.draw(ogon[i]);
+
+        } ;
+        
+        };
+
+
+
+};
