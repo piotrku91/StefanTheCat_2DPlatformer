@@ -12,6 +12,9 @@ void Log(T CmdLine) {
 }
 
 
+sf::Texture Texture[2];
+
+
 TPlayer Gracz(100,100,"textures/jeden.jpg",0,0);
 std::vector<TPlatform> Platformy;
 
@@ -25,11 +28,13 @@ int main()
     window.setFramerateLimit(30);
     window.setMouseCursorVisible(false);
     window.setPosition(sf::Vector2i(130,120));
+    Texture[0].loadFromFile("textures/jeden.jpg"); // plik tekstury
+    Texture[0].setRepeated(true);
 
-    Platformy.emplace_back(20,400,"textures/jeden.jpg",512,512);
-    Platformy.emplace_back(350,300,"textures/jeden.jpg",512,512);
-   // TPlatform Platform(0,400,"textures/jeden.jpg",512,512);
-  //  TPlatform Platform2(350,Platform.m_Sprite.getPosition().y-40,"textures/jeden.jpg",512,512);
+    Platformy.emplace_back(20,400,Texture,512,512);
+    Platformy.emplace_back(350,300,Texture,512,512);
+    Platformy.emplace_back(300,350,Texture,512,512);
+    Platformy.emplace_back(150,500,Texture,512,512);
 
 
     while (window.isOpen())
@@ -45,7 +50,7 @@ int main()
             {
             
               for (TPlatform& Platform : Platformy) {
-              if ((!Gracz.testCollisionRight(Platform)) && (!Gracz.testCollisionRight(Platform))) {Gracz.MoveRight(); } else {Gracz.MoveStop(); Gracz.CanJump=false;};
+              if (!Gracz.testCollisionRight(Platform)) {Gracz.MoveRight(); } else {Gracz.MoveStop(); Gracz.CanJump=false;};
               };
                
             };
@@ -53,7 +58,7 @@ int main()
               if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
             {
            for (TPlatform& Platform : Platformy) {
-              if ((!Gracz.testCollisionLeft(Platform)) && (!Gracz.testCollisionLeft(Platform))) {Gracz.MoveLeft(); } else {Gracz.MoveStop(); Gracz.CanJump=false;};
+              if (!Gracz.testCollisionLeft(Platform)) {Gracz.MoveLeft(); } else {Gracz.MoveStop(); Gracz.CanJump=false;};
                  };
              
               
@@ -63,7 +68,7 @@ int main()
                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
             {
               
-              if (Gracz.CanJump) Gracz.MoveJump();
+              if (Gracz.CanJump) { Gracz.MoveJump(); };
            
               
             }
@@ -77,7 +82,7 @@ int main()
 
             if ( !(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) && !(sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) )
             {
-              Gracz.MoveStop();
+            //  Gracz.MoveStop();
         
           
             };
@@ -85,20 +90,31 @@ int main()
         
              
         }
-
-        if (Gracz.isJumping) Gracz.Fly(); 
-
+        bool cool=false;
+        bool cool2=false;
+      
          for (TPlatform& Platform: Platformy) {
-        if (Gracz.isCollision(Platform)) {Gracz.CanJump=true; } else { Gracz.MoveDown(5); Gracz.CanJump=false;};
-         };
-                
+           
+           if (Gracz.isCollision(Platform))  
+           {cool=true; 
+       
+           
+           }  
+           
+           if ((Gracz.testCollisionLeft(Platform)) ||(Gracz.testCollisionRight(Platform)) || (Gracz.testCollisionTop(Platform))) { cool=false; cool2=true;};
+           
+           };
+           
+
+         if (cool) {Gracz.CanJump=true;} else { Gracz.MoveDown(5); Gracz.CanJump=false;};
+         
+         if ((Gracz.isJumping))  Gracz.Fly(cool2); 
+
 
       window.clear();
       window.draw(Gracz.GetToDraw());
-      for (TPlatform& Platform: Platformy) {window.draw(Platform.GetToDraw());};
-      //window.draw(Platform.GetToDraw());
-      //window.draw(Platform2.GetToDraw());
-      //window.draw(Wall.GetToDraw());
+
+      for (TPlatform& Platform: Platformy) {window.draw(Platform.GetToDraw());}
       window.display();
     }
 

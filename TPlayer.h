@@ -68,12 +68,12 @@ CanJump=false;
 
 }
 
-void Fly()
+void Fly(bool Cbreak=false)
 {
    
   // std::cout << "BAZA x: " <<Baza.x;
 //std::cout << " BAZA y: " << Baza.y <<std::endl;
-   if (FCounter<11) {
+   if ((FCounter<11) && (!Cbreak)) {
 m_Sprite.setPosition(para_arr[FCounter][0],para_arr[FCounter][1]);
 
 std::cout << "nowy x: " <<para_arr[FCounter][0];

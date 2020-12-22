@@ -12,11 +12,12 @@ public:
 // Konstruktor
 //TPlatform () = delete;
 TPlatform () {};
-TPlatform (const int& PosX, const int& PosY, const std::string file, const int& cutX, const int& cutY) 
+TPlatform (const int& PosX, const int& PosY, sf::Texture * TextureContainer,  const int& cutX, const int& cutY) 
 {
-   m_Texture.loadFromFile(file,sf::IntRect(cutX, cutY, 500, 32)); // plik tekstury
-   m_Texture.setRepeated(true);
-   m_Sprite.setTexture(m_Texture); 
+  // TextureContainer->loadFromFile(file,sf::IntRect(cutX, cutY, 500, 32)); // plik tekstury
+   TextureContainer->setRepeated(true);
+   m_Sprite.setTextureRect(sf::IntRect(cutX, cutY, 500, 32));
+   m_Sprite.setTexture(*TextureContainer); 
    m_Sprite.setPosition(PosX,PosY); // pozycjonowanie
   
 }
