@@ -16,14 +16,12 @@ sf::Sprite m_Sprite;
 
       bool testCollisionDown (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(0,5);
+        tmp.move(0,1);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }
       return false;
    };
-
-   
 
     bool testCollisionTop (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
@@ -38,7 +36,7 @@ sf::Sprite m_Sprite;
 
       bool testCollisionLeft (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(-10,-10);
+        tmp.move(-6,-5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }
@@ -47,7 +45,7 @@ sf::Sprite m_Sprite;
 
        bool testCollisionRight (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(+10,-10);
+        tmp.move(+6,-5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }

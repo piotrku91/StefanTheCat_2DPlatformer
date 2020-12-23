@@ -83,13 +83,6 @@ std::cout << " nowy y: " << para_arr[FCounter][1] <<std::endl;
 FCounter++;
 
    } else { isJumping=false;  FCounter=0; }
-
-   //   if ((FCounter>-1) && (Falling)) {
-
-//m_Sprite.setPosition(Baza.x+para_arr[FCounter][0],Baza.y-para_arr[FCounter][1]);
-//FCounter--;
-  // } 
- //if (FCounter<0) { Falling=false; isJumping=false; };
    
   
    
