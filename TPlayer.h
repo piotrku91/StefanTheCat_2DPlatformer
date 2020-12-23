@@ -43,7 +43,6 @@ int FCounter=0;
 float para_arr[10][2];
 sf::Vector2f Baza;
 sf:: Vector2f lastPos;
-bool Falling=false;
 
 void MoveJump()
 {
@@ -90,15 +89,6 @@ FCounter++;
 
 
 };
-
-
-/*    
-   bool isCollision (TPlatform &target) {
-      if (m_Sprite.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
-            return true;
-      }
-      return false;
-   }; */
 
 
 sf::Drawable& GetToDraw()

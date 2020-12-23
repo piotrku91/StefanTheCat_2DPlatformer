@@ -2,7 +2,7 @@
 #include <iostream>
 #include "TPlayer.h"
 #include "TPlatform.h"
-#include "TWall.h"
+#include "TParabolic.h"
 
 
 
@@ -46,13 +46,15 @@ int main()
     Platformy.emplace_back(350,300,Platformy_Textury,512,512);
     Platformy.emplace_back(300,350,Platformy_Textury,512,512);
     Platformy.emplace_back(150,500,Platformy_Textury,512,512);
-
+    TParabolic Parabola;
+Parabola.Recalculate();
     //GAME LOOP
     while (window.isOpen())
     {
 
     // ZMIENNE
         sf::Event event;
+
         float dX=0;
         float dY=0;
         bool onGround=false;
@@ -67,7 +69,7 @@ int main()
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { dX=15; };
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){ dX=-15; };
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){ dY=30;};
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){  };
 
         }
 
@@ -77,7 +79,7 @@ int main()
                                               if (Gracz.testCollisionRight(Platform)) rightWall=true;
                                          };
                                               
-      
+         
          if ((dX>0) && (!rightWall) && (onGround)) Gracz.MoveRight(dX); 
          if ((dX<0) && (!leftWall) && (onGround)) Gracz.MoveLeft(dX);    
          if (!onGround) Gravity(); 
