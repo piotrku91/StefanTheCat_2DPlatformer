@@ -47,7 +47,8 @@ int main()
     Platformy.emplace_back(300,350,Platformy_Textury,512,512);
     Platformy.emplace_back(150,500,Platformy_Textury,512,512);
     TParabolic Parabola;
-Parabola.Recalculate();
+    Parabola.Recalculate(10,-0.05);
+    std::cout << Parabola.getPoint(32)->x;
     //GAME LOOP
     while (window.isOpen())
     {
