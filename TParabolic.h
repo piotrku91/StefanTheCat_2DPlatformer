@@ -8,9 +8,14 @@ struct TPPoint
     float x;
     float y;
 
-    sf::Vector2f toV2f()
+    sf::Vector2f toV2f_x()
     {
     return sf::Vector2f(x,y);
+    }
+
+       sf::Vector2f toV2f_xrev()
+    {
+    return sf::Vector2f(-x,y);
     }
 
     operator sf::Vector2f()
@@ -60,7 +65,7 @@ public:
 
             std::cout << "Punkt" << i;
             if (PPoint[i].y == abs(YShift))
-                std::cout << " ------> ";
+                std::cout << " CENTER ------> ";
             std::cout << "- X: " << PPoint[i].x;
             std::cout << " Y: " << PPoint[i].y;
 
@@ -75,7 +80,12 @@ public:
         isPointToGo = true;
     }
 
-    TPPoint *firstPoint()
+    const int PointCount()
+    {
+    return PPoint.size();
+    }
+
+     TPPoint *firstPoint()
     {
         return &(*PPoint.begin());
     }
@@ -92,9 +102,9 @@ public:
     }
 
     TPPoint *nextPoint()
-    {
+    { 
         it = std::next(it);
-        if (it == PPoint.end())
+        if (it == PPoint.end()-1)
             isPointToGo = false;
         return &(*it);
     }

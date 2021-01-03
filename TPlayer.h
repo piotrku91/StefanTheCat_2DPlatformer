@@ -12,7 +12,6 @@ class TPlayer: public TCollid
 
 public:
 
-bool CanJump=false;
 bool isJumping=false;
 // Konstruktor
 TPlayer () = delete;
@@ -42,53 +41,7 @@ void MoveStop() {};
 int FCounter=0;
 float para_arr[10][2];
 sf::Vector2f Baza;
-sf:: Vector2f lastPos;
 
-void MoveJump()
-{
-Baza = m_Sprite.getPosition();
-std::cout << "BAZA x: " <<Baza.x;
-std::cout << " BAZA y: " << Baza.y <<std::endl;
-
-for (int i=0; i<11; i++)
-{
-   
-para_arr[i][0]=i*10+Baza.x;
-para_arr[i][1]=Baza.y-((-1*pow(i-5,2))+80);
-
-
-std::cout << "x: " <<para_arr[i][0];
-std::cout << " y: " << para_arr[i][1] <<std::endl;
-
-};
-int FCounter=0;
-isJumping=true;
-CanJump=false;
-
-}
-
-void Fly(bool Cbreak=false)
-{
-   
-  // std::cout << "BAZA x: " <<Baza.x;
-//std::cout << " BAZA y: " << Baza.y <<std::endl;
-   if ((FCounter<11) && (!Cbreak)) {
-m_Sprite.setPosition(para_arr[FCounter][0],para_arr[FCounter][1]);
-
-std::cout << "nowy x: " <<para_arr[FCounter][0];
-std::cout << " nowy y: " << para_arr[FCounter][1] <<std::endl;
-
-
-FCounter++;
-
-   } else { isJumping=false;  FCounter=0; }
-   
-  
-   
-
-
-
-};
 
 
 sf::Drawable& GetToDraw()

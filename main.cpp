@@ -15,11 +15,29 @@ void Log(T CmdLine) {
 sf::Texture Texture[2]; // Tablica tekstur
 TPlayer Gracz(100,100,"textures/jeden.jpg",0,0); // Tworzenie playera
 std::vector<TPlatform> Platformy;  //Kontener platform
-
+TParabolic Parabola;
 
 void Gravity()
 {
-Gracz.MoveDown(5);
+    Gracz.isJumping=false;
+Gracz.MoveDown(3);
+};
+
+void Fly()
+{
+    if (Parabola.isPointToGo) {
+Gracz.m_Sprite.setPosition(Gracz.Baza-Parabola.nextPoint()->toV2f_xrev());
+std::cout << "x: " << Gracz.m_Sprite.getPosition().x << " y:" <<  Gracz.m_Sprite.getPosition().y << std::endl;
+    }
+     else Gracz.isJumping=false;
+};
+
+void JumpStart()
+{
+    Parabola.ResetIterator();
+    Gracz.Baza = Gracz.m_Sprite.getPosition();
+    Fly();
+Gracz.isJumping=true;
 };
 
 
@@ -45,10 +63,12 @@ int main()
     Platformy.emplace_back(350,300,Platformy_Textury,512,512);
     Platformy.emplace_back(300,350,Platformy_Textury,512,512);
     Platformy.emplace_back(150,500,Platformy_Textury,512,512);
-    TParabolic Parabola;
-    Parabola.Recalculate(10,-0.05);
-    std::cout << Parabola.nextPoint()->x;
-    sf::Vector2f a = Parabola.firstPoint()->toV2f();
+    
+    Parabola.Recalculate(15,-0.4);
+
+  //  std::cout << Parabola.nextPoint()->x;
+   // sf::Vector2f a = Parabola.firstPoint()->toV2f();
+
     //GAME LOOP
     while (window.isOpen())
     {
@@ -70,9 +90,13 @@ int main()
 
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { dX=15; };
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){ dX=-15; };
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){  };
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){ JumpStart(); 
+                
+                };
 
         }
+
+        //Collisions checks
 
          for (TPlatform& Platform: Platformy) { 
                                               if (Gracz.testCollisionDown(Platform))  onGround=true;
@@ -82,8 +106,10 @@ int main()
                                               
          
          if ((dX>0) && (!rightWall) && (onGround)) Gracz.MoveRight(dX); 
-         if ((dX<0) && (!leftWall) && (onGround)) Gracz.MoveLeft(dX);    
-         if (!onGround) Gravity(); 
+         if ((dX<0) && (!leftWall) && (onGround)) Gracz.MoveLeft(dX); 
+         if (Gracz.isJumping) Fly();     
+         if ((!onGround) && (!Gracz.isJumping))  Gravity(); 
+          
 
       // RYSOWANIE
       window.clear();
