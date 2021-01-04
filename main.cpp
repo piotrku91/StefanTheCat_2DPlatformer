@@ -53,7 +53,7 @@ int main()
     window.setActive(true);
     window.setFramerateLimit(30);
     window.setMouseCursorVisible(false);
-    window.setPosition(sf::Vector2i(130,120));
+    window.setPosition(sf::Vector2i(230,120));
 
     
     //WCZYTYWANIE TEKSTUR
@@ -82,7 +82,7 @@ int main()
         sf::Event event;
 
         float dX=0;
-        float dY=5;
+        float dY=4;
         bool onGround=false;
         bool leftWall=false;
         bool rightWall=false;

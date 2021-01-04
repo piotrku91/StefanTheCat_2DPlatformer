@@ -19,7 +19,7 @@ sf::Sprite m_Sprite;
             sf::Sprite tmp=m_Sprite;
         tmp.move(0,5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
-         std::cout<< "KOLIZJA GLEBA" << std::endl;
+         std::cout<< "KOLIZJA GLEBA y=" << m_Sprite.getPosition().y << std::endl;
             return true;
 
       }

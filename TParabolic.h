@@ -98,7 +98,7 @@ public:
         void Inc()
     {
        it = std::next(it);
-         if (it == PPoint.end()-1)
+         if (it == PPoint.end()-2)
             isPointToGo = false;
     }
 
