@@ -20,6 +20,7 @@ TPlayer (const int& PosX, const int& PosY, const std::string file, const int& cu
    m_Texture.loadFromFile(file,sf::IntRect(cutX, cutY, 32, 32)); // plik tekstury
    m_Texture.setRepeated(true);
    m_Sprite.setTexture(m_Texture); 
+   m_Sprite.setTextureRect(sf::IntRect(cutX, cutY, 32, 32));
    m_Sprite.setPosition(PosX,PosY); // pozycjonowanie
   
 }
@@ -38,8 +39,6 @@ void MoveDown(const int& speed=MOVE_SPEED) {Move(0,speed);};
 void MoveStop() {};
 
 
-int FCounter=0;
-float para_arr[10][2];
 sf::Vector2f Baza;
 
 

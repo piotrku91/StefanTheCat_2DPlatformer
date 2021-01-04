@@ -17,20 +17,25 @@ TPlayer Gracz(100,100,"textures/jeden.jpg",0,0); // Tworzenie playera
 std::vector<TPlatform> Platformy;  //Kontener platform
 TParabolic Parabola;
 
-void Gravity()
+void Gravity(float DY=5)
 {
+    Gracz.MoveDown(DY);
     Gracz.isJumping=false;
-Gracz.MoveDown(3);
 };
 
 void Fly()
 {
     if (Parabola.isPointToGo) {
 Gracz.m_Sprite.setPosition(Gracz.Baza-Parabola.nextPoint()->toV2f_xrev());
+Parabola.Inc();
 std::cout << "x: " << Gracz.m_Sprite.getPosition().x << " y:" <<  Gracz.m_Sprite.getPosition().y << std::endl;
     }
-     else Gracz.isJumping=false;
+     else 
+     { Gracz.isJumping=false;
+     std::cout << "koniec paraboli - dryf" <<std::endl;
+     };
 };
+
 
 void JumpStart()
 {
@@ -77,7 +82,7 @@ int main()
         sf::Event event;
 
         float dX=0;
-        float dY=0;
+        float dY=5;
         bool onGround=false;
         bool leftWall=false;
         bool rightWall=false;
@@ -88,29 +93,31 @@ int main()
             if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) window.close();
           
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { dX=15; };
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){ dX=-15; };
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){ JumpStart(); 
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) { dX=10; };
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){ dX=-10; };
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){ 
+                JumpStart(); 
+           //  dY=-100;
                 
                 };
 
         }
 
         //Collisions checks
-
+         
          for (TPlatform& Platform: Platformy) { 
-                                              if (Gracz.testCollisionDown(Platform))  onGround=true;
-                                              if (Gracz.testCollisionLeft(Platform))  leftWall=true;
-                                              if (Gracz.testCollisionRight(Platform)) rightWall=true;
+                                              if (Gracz.testCollisionDown(Platform))  { onGround=true; Gracz.isJumping=false; };
+                                              if (Gracz.testCollisionLeft(Platform)) { leftWall=true; Gracz.isJumping=false; };
+                                              if (Gracz.testCollisionRight(Platform)) { rightWall=true; Gracz.isJumping=false; };
                                          };
                                               
-         
+        // if (Gracz.isJumping) Fly2(dX,dY);     
+         if ((Gracz.isJumping) && (!onGround)) { Fly(); dX=0; };
          if ((dX>0) && (!rightWall) && (onGround)) Gracz.MoveRight(dX); 
          if ((dX<0) && (!leftWall) && (onGround)) Gracz.MoveLeft(dX); 
-         if (Gracz.isJumping) Fly();     
-         if ((!onGround) && (!Gracz.isJumping))  Gravity(); 
-          
-
+         if ((!onGround) && (!Gracz.isJumping))  Gravity(dY); 
+     //    if (dY<5)  Gravity(dY); 
+         
       // RYSOWANIE
       window.clear();
       window.draw(Gracz.GetToDraw());

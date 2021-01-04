@@ -95,17 +95,26 @@ public:
         return &(*PPoint.end());
     }
 
-    TPPoint *prevPoint()
+        void Inc()
+    {
+       it = std::next(it);
+         if (it == PPoint.end()-1)
+            isPointToGo = false;
+    }
+
+          void Dec()
     {
         it = std::prev(it);
+    }
+
+    TPPoint *prevPoint()
+    {
         return &(*it);
     }
 
     TPPoint *nextPoint()
     { 
-        it = std::next(it);
-        if (it == PPoint.end()-1)
-            isPointToGo = false;
+      
         return &(*it);
     }
 

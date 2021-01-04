@@ -15,10 +15,13 @@ sf::Sprite m_Sprite;
    };
 
       bool testCollisionDown (TCollid &target) {
-        sf::Sprite tmp=m_Sprite;
-        tmp.move(0,1);
+         
+            sf::Sprite tmp=m_Sprite;
+        tmp.move(0,5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
+         std::cout<< "KOLIZJA GLEBA" << std::endl;
             return true;
+
       }
       return false;
    };
@@ -36,7 +39,7 @@ sf::Sprite m_Sprite;
 
       bool testCollisionLeft (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(-6,-5);
+        tmp.move(-11,-5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }
@@ -45,7 +48,7 @@ sf::Sprite m_Sprite;
 
        bool testCollisionRight (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(+6,-5);
+        tmp.move(+11,-5);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }
