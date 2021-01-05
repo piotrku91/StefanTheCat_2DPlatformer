@@ -87,13 +87,13 @@ public:
 
      TPPoint *firstPoint()
     {
-        return &(*PPoint.begin());
+        return &(*PPoint.begin());       
     }
 
     TPPoint *lastPoint()
     {
         return &(*PPoint.end());
-    }
+    }                                                                                                  
 
         void Inc()
     {

@@ -7,7 +7,7 @@ public:
 sf::Texture m_Texture;
 sf::Sprite m_Sprite;
 
-   bool isCollision (TCollid &target) {
+   bool testCollision (TCollid &target) {
       if (m_Sprite.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
             return true;
       }
@@ -16,8 +16,8 @@ sf::Sprite m_Sprite;
 
       bool testCollisionDown (TCollid &target) {
          
-            sf::Sprite tmp=m_Sprite;
-        tmp.move(0,5);
+        sf::Sprite tmp=m_Sprite;
+        tmp.move(0,4);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
          std::cout<< "KOLIZJA GLEBA y=" << m_Sprite.getPosition().y << std::endl;
             return true;
@@ -32,6 +32,7 @@ sf::Sprite m_Sprite;
     //   sf::FloatRect temp = sf::FloatRect(m_Sprite.getPosition().x,m_Sprite.getPosition().y-5,m_Sprite.getTextureRect());
       
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
+         std::cout<< "KOLIZJA GORA y=" << m_Sprite.getPosition().y << std::endl;
             return true;
       }
       return false;
@@ -39,8 +40,9 @@ sf::Sprite m_Sprite;
 
       bool testCollisionLeft (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(-11,-5);
+        tmp.move(-10,-20);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
+         std::cout<< "KOLIZJA LEWA x=" << m_Sprite.getPosition().x << std::endl;
             return true;
       }
       return false;
@@ -48,8 +50,9 @@ sf::Sprite m_Sprite;
 
        bool testCollisionRight (TCollid &target) {
         sf::Sprite tmp=m_Sprite;
-        tmp.move(+11,-5);
+        tmp.move(+10,-20);
       if (tmp.getGlobalBounds().intersects(target.m_Sprite.getGlobalBounds())) {
+         std::cout<< "KOLIZJA PRAWA x=" << m_Sprite.getPosition().x << std::endl;
             return true;
       }
       return false;
