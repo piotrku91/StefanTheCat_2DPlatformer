@@ -11,17 +11,23 @@ class TPlayer: public TCollid
 {
 
 public:
-
+sf::Vector2f Baza;
+enum DirectionChoose {left,right};
 bool isJumping=false;
 bool CanJump=true;
+int Direction=DirectionChoose::right;
+
+
+
+
 // Konstruktor
 TPlayer () = delete;
 TPlayer (const int& PosX, const int& PosY, const std::string file, const int& cutX, const int& cutY) 
 {
-   m_Texture.loadFromFile(file,sf::IntRect(cutX, cutY, 16, 16)); // plik tekstury
+   m_Texture.loadFromFile(file,sf::IntRect(cutX, cutY, 32, 32)); // plik tekstury
    m_Texture.setRepeated(true);
    m_Sprite.setTexture(m_Texture); 
-   m_Sprite.setTextureRect(sf::IntRect(cutX, cutY, 16, 16));
+   m_Sprite.setTextureRect(sf::IntRect(cutX, cutY, 32, 32));
    m_Sprite.setPosition(PosX,PosY); // pozycjonowanie
   
 }
@@ -40,7 +46,12 @@ void MoveDown(const int& speed=MOVE_SPEED) {Move(0,speed);};
 void MoveStop() {};
 
 
-sf::Vector2f Baza;
+void ChangeDirection(DirectionChoose newDirection)
+{
+
+Direction=newDirection;
+
+};
 
 
 
